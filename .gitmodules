@@ -1,0 +1,3 @@
+[submodule "starkom"]
+	path = starkom
+	url = https://github.com/libernet-xyz/starkom.git

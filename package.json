@@ -1,0 +1,31 @@
+{
+  "name": "@libernet/starkom",
+  "version": "0.2.1",
+  "description": "Starkom compiler.",
+  "homepage": "https://github.com/libernet-xyz/starkom.js#readme",
+  "bugs": {
+    "url": "https://github.com/libernet-xyz/starkom.js/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/libernet-xyz/starkom.js.git"
+  },
+  "license": "Apache-2.0",
+  "author": "Alberto La Rocca <alr@libernet.xyz>",
+  "type": "module",
+  "main": "dist/main.js",
+  "exports": "./dist/main.js",
+  "types": "dist/main.d.ts",
+  "scripts": {
+    "build": "(cd starkom && cargo build --release --target wasm32-unknown-unknown) && wasm-bindgen starkom/target/wasm32-unknown-unknown/release/starkom.wasm --out-dir bindings/ --target bundler && npx tsc"
+  },
+  "bin": {
+    "starkom": "dist/cli.js"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3"
+  },
+  "dependencies": {
+    "protobufjs": "^8.6.3"
+  }
+}
