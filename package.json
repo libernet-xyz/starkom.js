@@ -14,6 +14,10 @@
   "author": "Alberto La Rocca <alr@libernet.xyz>",
   "type": "module",
   "main": "dist/main.js",
+  "files": [
+    "dist",
+    "bindings"
+  ],
   "exports": "./dist/main.js",
   "types": "dist/main.d.ts",
   "scripts": {
