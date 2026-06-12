@@ -245,4 +245,227 @@ describe("parse", function () {
       { range: { offset: 175, length: 122 }, block: { statements: [1, 2, 3, 4, 5, 6] } },
     ]);
   });
+
+  it("vitalik.starkom without ranges", function () {
+    const source = readFileSync(path.join(__dirname, "../starkom/test/vitalik.starkom"), "utf-8");
+    const file = parse("vitalik.starkom", source, false);
+
+    expect(file.path).to.equal("vitalik.starkom");
+    expect(file.lineStarts).to.deep.equal([]);
+    expect(file.includes).to.deep.equal([]);
+
+    expect(file.version).to.matchProto({
+      range: null,
+      major: 1,
+      minor: 0,
+      patch: 0,
+    });
+
+    expect(file.definitions).to.matchProto([
+      {
+        templateDefinition: {
+          range: null,
+          name: "Vitalik",
+          params: [],
+          bodyIndex: 7,
+        },
+      },
+    ]);
+
+    expect(file.mainComponent).to.matchProto({
+      range: null,
+      publicSignals: [],
+      instantiation: 19,
+    });
+
+    expect(file.expressions.slice(1)).to.matchProto([
+      // [1]  square
+      { range: null, variable: { name: "square" } },
+
+      // [2]  x (lhs of x*x)
+      { range: null, variable: { name: "x" } },
+
+      // [3]  x (rhs of x*x)
+      { range: null, variable: { name: "x" } },
+
+      // [4]  x * x
+      {
+        range: null,
+        infixExpression: {
+          type: starkom.ast.v1.InfixExpression.Type.INFIX_EXPRESSION_TYPE_MULTIPLY,
+          lhs: 2,
+          rhs: 3,
+        },
+      },
+
+      // [5]  square <== x * x
+      {
+        range: null,
+        constrainedAssign: {
+          direction: starkom.ast.v1.AssignmentDirection.ASSIGNMENT_DIRECTION_RIGHT_TO_LEFT,
+          lhs: 1,
+          rhs: 4,
+        },
+      },
+
+      // [6]  cube
+      {
+        range: null,
+        variable: { name: "cube" },
+      },
+
+      // [7]  square (lhs of sq*x)
+      {
+        range: null,
+        variable: { name: "square" },
+      },
+
+      // [8]  x (rhs of sq*x)
+      {
+        range: null,
+        variable: { name: "x" },
+      },
+
+      // [9]  square * x
+      {
+        range: null,
+        infixExpression: {
+          type: starkom.ast.v1.InfixExpression.Type.INFIX_EXPRESSION_TYPE_MULTIPLY,
+          lhs: 7,
+          rhs: 8,
+        },
+      },
+
+      // [10] cube <== square * x
+      {
+        range: null,
+        constrainedAssign: {
+          direction: starkom.ast.v1.AssignmentDirection.ASSIGNMENT_DIRECTION_RIGHT_TO_LEFT,
+          lhs: 6,
+          rhs: 9,
+        },
+      },
+
+      // [11] cube (in cube+x+5)
+      {
+        range: null,
+        variable: { name: "cube" },
+      },
+
+      // [12] x (in cube+x)
+      {
+        range: null,
+        variable: { name: "x" },
+      },
+
+      // [13] cube + x
+      {
+        range: null,
+        infixExpression: {
+          type: starkom.ast.v1.InfixExpression.Type.INFIX_EXPRESSION_TYPE_ADD,
+          lhs: 11,
+          rhs: 12,
+        },
+      },
+
+      // [14] 5
+      {
+        range: null,
+        numericLiteral: { base: 10, value: "5" },
+      },
+
+      // [15] cube + x + 5
+      {
+        range: null,
+        infixExpression: {
+          type: starkom.ast.v1.InfixExpression.Type.INFIX_EXPRESSION_TYPE_ADD,
+          lhs: 13,
+          rhs: 14,
+        },
+      },
+
+      // [16] 35
+      {
+        range: null,
+        numericLiteral: { base: 10, value: "35" },
+      },
+
+      // [17] cube + x + 5 === 35
+      {
+        range: null,
+        constrainedEquality: { lhs: 15, rhs: 16 },
+      },
+
+      // [18] Vitalik
+      {
+        range: null,
+        variable: { name: "Vitalik" },
+      },
+
+      // [19] Vitalik()
+      {
+        range: null,
+        postfixChain: { operand: 18, postfix: [{ invocation: { arguments: [] } }] },
+      },
+    ]);
+
+    expect(file.statements.slice(1)).to.matchProto([
+      // [1] signal input x;
+      {
+        range: null,
+        declaration: {
+          type: starkom.ast.v1.DeclarationStatement.Type.DECLARATION_TYPE_SIGNAL,
+          declarations: [
+            {
+              modifier: starkom.ast.v1.DeclarationStatement.Modifier.MODIFIER_SIGNAL_TYPE_INPUT,
+              name: "x",
+              dimensions: [],
+            },
+          ],
+        },
+      },
+
+      // [2] signal square;
+      {
+        range: null,
+        declaration: {
+          type: starkom.ast.v1.DeclarationStatement.Type.DECLARATION_TYPE_SIGNAL,
+          declarations: [
+            {
+              modifier: starkom.ast.v1.DeclarationStatement.Modifier.MODIFIER_NONE,
+              name: "square",
+              dimensions: [],
+            },
+          ],
+        },
+      },
+
+      // [3] signal cube;
+      {
+        range: null,
+        declaration: {
+          type: starkom.ast.v1.DeclarationStatement.Type.DECLARATION_TYPE_SIGNAL,
+          declarations: [
+            {
+              modifier: starkom.ast.v1.DeclarationStatement.Modifier.MODIFIER_NONE,
+              name: "cube",
+              dimensions: [],
+            },
+          ],
+        },
+      },
+
+      // [4] square <== x * x;
+      { range: null, expression: { expression: 5 } },
+
+      // [5] cube <== square * x;
+      { range: null, expression: { expression: 10 } },
+
+      // [6] cube + x + 5 === 35;
+      { range: null, expression: { expression: 17 } },
+
+      // [7] template body { ... }
+      { range: null, block: { statements: [1, 2, 3, 4, 5, 6] } },
+    ]);
+  });
 });
