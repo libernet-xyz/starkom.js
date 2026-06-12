@@ -1,6 +1,6 @@
 {
   "name": "@libernet/starkom",
-  "version": "0.3.1",
+  "version": "0.4.0",
   "description": "Starkom compiler.",
   "homepage": "https://github.com/libernet-xyz/starkom.js#readme",
   "bugs": {
@@ -18,7 +18,10 @@
     "dist",
     "bindings"
   ],
-  "exports": "./dist/main.js",
+  "exports": {
+    ".": "./dist/main.js",
+    "./ast": "./dist/proto/ast.js"
+  },
   "types": "dist/main.d.ts",
   "scripts": {
     "start": "node dist/cli.js",
