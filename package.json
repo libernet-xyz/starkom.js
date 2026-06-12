@@ -1,6 +1,6 @@
 {
   "name": "@libernet/starkom",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Starkom compiler.",
   "homepage": "https://github.com/libernet-xyz/starkom.js#readme",
   "bugs": {
@@ -24,7 +24,7 @@
     "start": "node dist/cli.js",
     "build:proto": "mkdir -p src/proto && npx pbjs -t static-module -w es6 -o src/proto/ast.js starkom/proto/ast.proto && npx pbts -o src/proto/ast.d.ts src/proto/ast.js",
     "build:wasm": "(cd starkom && cargo build --release --target wasm32-unknown-unknown) && wasm-bindgen starkom/target/wasm32-unknown-unknown/release/starkom.wasm --out-dir bindings/ --target bundler",
-    "build:ts": "npx tsc && mkdir -p dist/proto && cp src/proto/*.js dist/proto/",
+    "build:ts": "npx tsc && mkdir -p dist/proto && cp src/proto/* dist/proto/ && chmod +x dist/cli.js",
     "build": "npm run build:proto && npm run build:wasm && npm run build:ts",
     "test": "NODE_OPTIONS='--import tsx/esm' mocha 'test/*.ts'"
   },
