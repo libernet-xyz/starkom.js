@@ -4,12 +4,33 @@ import * as path from "node:path";
 
 import { expect } from "chai";
 
-import { parse } from "../src/main.js";
+import { parse, getTextCoordinatesFromOffset } from "../src/main.js";
 import { starkom } from "../src/proto/ast.js";
 
 import "./utils.ts";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+describe("getTextCoordinatesFromOffset", function () {
+  it("text coordinates", function () {
+    const lineStarts = [0, 7, 12];
+    expect(getTextCoordinatesFromOffset(0, lineStarts)).to.deep.equal({ row: 0, col: 0 });
+    expect(getTextCoordinatesFromOffset(1, lineStarts)).to.deep.equal({ row: 0, col: 1 });
+    expect(getTextCoordinatesFromOffset(2, lineStarts)).to.deep.equal({ row: 0, col: 2 });
+    expect(getTextCoordinatesFromOffset(3, lineStarts)).to.deep.equal({ row: 0, col: 3 });
+    expect(getTextCoordinatesFromOffset(4, lineStarts)).to.deep.equal({ row: 0, col: 4 });
+    expect(getTextCoordinatesFromOffset(5, lineStarts)).to.deep.equal({ row: 0, col: 5 });
+    expect(getTextCoordinatesFromOffset(6, lineStarts)).to.deep.equal({ row: 0, col: 6 });
+    expect(getTextCoordinatesFromOffset(7, lineStarts)).to.deep.equal({ row: 1, col: 0 });
+    expect(getTextCoordinatesFromOffset(8, lineStarts)).to.deep.equal({ row: 1, col: 1 });
+    expect(getTextCoordinatesFromOffset(9, lineStarts)).to.deep.equal({ row: 1, col: 2 });
+    expect(getTextCoordinatesFromOffset(10, lineStarts)).to.deep.equal({ row: 1, col: 3 });
+    expect(getTextCoordinatesFromOffset(11, lineStarts)).to.deep.equal({ row: 1, col: 4 });
+    expect(getTextCoordinatesFromOffset(12, lineStarts)).to.deep.equal({ row: 2, col: 0 });
+    expect(getTextCoordinatesFromOffset(13, lineStarts)).to.deep.equal({ row: 2, col: 1 });
+    expect(getTextCoordinatesFromOffset(14, lineStarts)).to.deep.equal({ row: 2, col: 2 });
+  });
+});
 
 describe("parse", function () {
   it("vitalik.starkom with ranges", function () {
