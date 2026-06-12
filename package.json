@@ -21,12 +21,24 @@
   "exports": "./dist/main.js",
   "types": "dist/main.d.ts",
   "scripts": {
-    "build": "(cd starkom && cargo build --release --target wasm32-unknown-unknown) && wasm-bindgen starkom/target/wasm32-unknown-unknown/release/starkom.wasm --out-dir bindings/ --target bundler && npx tsc"
+    "start": "node dist/cli.js",
+    "build:proto": "mkdir -p src/proto && npx pbjs -t static-module -w es6 -o src/proto/ast.js starkom/proto/ast.proto && npx pbts -o src/proto/ast.d.ts src/proto/ast.js",
+    "build:wasm": "(cd starkom && cargo build --release --target wasm32-unknown-unknown) && wasm-bindgen starkom/target/wasm32-unknown-unknown/release/starkom.wasm --out-dir bindings/ --target bundler",
+    "build:ts": "npx tsc",
+    "build": "npm run build:proto && npm run build:wasm && npm run build:ts",
+    "test": "NODE_OPTIONS='--import tsx/esm' mocha 'test/*.ts'"
   },
   "bin": {
     "starkom": "dist/cli.js"
   },
   "devDependencies": {
+    "@types/chai": "^5.2.3",
+    "@types/mocha": "^10.0.10",
+    "@types/node": "^25.9.3",
+    "chai": "^6.2.2",
+    "mocha": "^11.7.6",
+    "protobufjs-cli": "^2.5.4",
+    "tsx": "^4.22.4",
     "typescript": "^6.0.3"
   },
   "dependencies": {
