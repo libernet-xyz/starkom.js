@@ -39,7 +39,7 @@ describe("parse", function () {
 
     expect(file.path).to.equal("vitalik.starkom");
     expect(file.lineStarts).to.deep.equal([]);
-    expect(file.tokens).to.deep.equal([]);
+    expect(file.tokens).to.matchProto([]);
 
     expect(file.includes).to.deep.equal([]);
 
@@ -547,7 +547,7 @@ describe("parse", function () {
     expect(file.lineStarts).to.deep.equal([
       0, 58, 132, 133, 155, 156, 177, 195, 196, 213, 228, 229, 249, 272, 273, 296, 298, 299, 327,
     ]);
-    expect(file.tokens).to.deep.equal([]);
+    expect(file.tokens).to.matchProto([]);
 
     expect(file.includes).to.deep.equal([]);
 
