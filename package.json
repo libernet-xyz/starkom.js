@@ -1,6 +1,6 @@
 {
   "name": "@libernet/starkom",
-  "version": "0.4.0",
+  "version": "0.5.1",
   "description": "Starkom compiler.",
   "homepage": "https://github.com/libernet-xyz/starkom.js#readme",
   "bugs": {
